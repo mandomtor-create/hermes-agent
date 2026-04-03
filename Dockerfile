@@ -9,7 +9,7 @@ RUN apt-get update && \
 COPY . /opt/hermes
 WORKDIR /opt/hermes
 
-# ДОДАНО: "python-telegram-bot[webhooks]" — це виправить твою помилку
+# Install Python and Node dependencies
 RUN pip install --no-cache-dir -e ".[all]" "python-telegram-bot[webhooks]" --break-system-packages && \
     npm install --prefer-offline --no-audit && \
     npx playwright install --with-deps chromium --only-shell && \
@@ -23,5 +23,5 @@ RUN mkdir -p /opt/data && chmod 777 /opt/data
 ENV HERMES_HOME=/opt/data
 VOLUME [ "/opt/data" ]
 
-# Запуск шлюзу
-CMD ["hermes", "gateway"]
+# МІНЯЄМО ТУТ: Жорстко вказуємо модель для OpenRouter
+CMD ["hermes", "gateway", "--model", "qwen/qwen-2.5-72b-instruct"]
